@@ -1,4 +1,4 @@
-###################################################
+e###################################################
 ######################IMPORTS######################
 ###################################################
 
@@ -189,7 +189,7 @@ for fold in ['F1', 'F2', 'F3', 'F4', 'F5']:
                         
                 row = {'Subject':subjects_val[idx], 'Threshold':val_outputs[0]}
                 df = pd.concat([df, pd.DataFrame([row])], ignore_index=True)        
-                df.to_csv(os.path.join(results_root, f'output_PredThres_{fold}.csv'))
+                df.to_csv(os.path.join(results_root, f'output_DenseNetTH_{fold}.csv'))
                 
                 idx += 1
     
