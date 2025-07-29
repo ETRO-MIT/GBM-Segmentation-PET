@@ -297,7 +297,7 @@ for fold in ['F1', 'F2', 'F3', 'F4', 'F5']:
                     row['AVE'] = ave
             
                     df = pd.concat([df, pd.DataFrame([row])], ignore_index=True)
-                    df.to_csv(f'results_SegFet_1channel_{fold}.csv')
+                    df.to_csv(f'results_1C-UNet_{fold}.csv')
         
                     idx += 1
                 
