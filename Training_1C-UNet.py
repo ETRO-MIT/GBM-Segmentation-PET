@@ -5,8 +5,6 @@
 import os
 import time
 
-import wandb
-
 from monai.losses import DiceCELoss
 from monai.inferers import sliding_window_inference
 from monai import transforms
@@ -270,7 +268,6 @@ for fold in ['F1', 'F2', 'F3', 'F4', 'F5']:
         lr_scheduler.step()
         epoch_loss /= step
         epoch_loss_values.append(epoch_loss)
-        wandb.log({f"epoch_loss_{fold}": epoch_loss})
         print(f"epoch {epoch + 1} average loss: {epoch_loss:.4f}")
     
         if (epoch + 1) % val_interval == 0:
