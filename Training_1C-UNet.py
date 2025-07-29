@@ -59,19 +59,8 @@ val_interval = 10
 lr = 1e-2
 dropout_rate = 0.0
 
-data_root = '/rhea/scratch/brussel/vo/000/bvo00025/vsc10399/DATA/SegFet/'
-model_root = '/rhea/scratch/brussel/vo/000/bvo00025/vsc10399/SegFet/trained_models/'
-
-wandb.init(
-    project="SegFet",
-    config={
-    "channels":1,
-    "architecture":"DynUnet",
-    "pretrained":"no",
-    "SUV":"yes"
-    }
-)
-
+data_root = '/path/to/data/'
+model_root = '/path/to/models/'
 
 
 ###################################################
@@ -79,12 +68,12 @@ wandb.init(
 ###################################################
 random.seed(0)
 
-subjects = {'CV1': ['GLITIPNI-59', 'Glimas1122', 'GLITIPNI-98', 'Glimas1012', 'GLITIPNI-1', 'Glimas1024', 'GLITIPNI-50', 'GLITIPNI-46', 'GLITIPNI-24', 'Glimas1000', 'GLITIPNI-39', 'GLITIPNI-112', 'Glimas1060', 'GLITIPNI-58', 'Glimas1162', 'Glimas1032', 'Glimas1026', 'Glimas1094', 'Glimas1090', 'Glimas1136', 'Glimas1100', 'Glimas1152', 'GLITIPNI-95', 'Glimas1114', 'Glimas1076'], 
-            'CV2': ['Glimas1168', 'GLITIPNI-40', 'Glimas1176', 'GLITIPNI-103', 'GLITIPNI-69', 'GLITIPNI-113', 'GLITIPNI-74', 'GLITIPNI-118', 'Glimas1070', 'Glimas1016', 'GLITIPNI-52', 'Glimas1038', 'GLITIPNI-108', 'Glimas1138', 'GLITIPNI-110', 'GLITIPNI-51', 'Glimas1144', 'GLITIPNI-114', 'GLITIPNI-61', 'GLITIPNI-29', 'GLITIPNI-92', 'GLITIPNI-16', 'GLITIPNI-117', 'Glimas1056', 'Glimas1104'], 
-            'CV3': ['GLITIPNI-66', 'GLITIPNI-34', 'Glimas1148', 'GLITIPNI-30', 'GLITIPNI-22', 'GLITIPNI-15', 'Glimas1078', 'GLITIPNI-35', 'GLITIPNI-77', 'GLITIPNI-72', 'Glimas1092', 'GLITIPNI-37', 'GLITIPNI-91', 'Glimas1140', 'Glimas1046', 'GLITIPNI-111', 'Glimas1064', 'GLITIPNI-12', 'GLITIPNI-94', 'GLITIPNI-10', 'Glimas1102', 'Glimas1008', 'GLITIPNI-4', 'GLITIPNI-7', 'GLITIPNI-81'], 
-            'CV4': ['GLITIPNI-104', 'GLITIPNI-64', 'GLITIPNI-67', 'GLITIPNI-85', 'Glimas1014', 'Glimas1044', 'Glimas1120', 'Glimas1142', 'GLITIPNI-47', 'Glimas1020', 'GLITIPNI-106', 'Glimas1088', 'GLITIPNI-75', 'GLITIPNI-2', 'Glimas1036', 'GLITIPNI-26', 'Glimas1040', 'Glimas1096', 'GLITIPNI-32', 'Glimas1086', 'GLITIPNI-54', 'Glimas1010', 'Glimas1066', 'Glimas1110', 'GLITIPNI-78'], 
-            'CV5': ['GLITIPNI-9', 'Glimas1106', 'GLITIPNI-70', 'GLITIPNI-83', 'GLITIPNI-84', 'GLITIPNI-31', 'GLITIPNI-11', 'GLITIPNI-87', 'GLITIPNI-102', 'GLITIPNI-115', 'Glimas1042', 'Glimas1112', 'Glimas1158', 'GLITIPNI-14', 'GLITIPNI-6', 'GLITIPNI-101', 'Glimas1108', 'Glimas1002', 'Glimas1030', 'Glimas1018', 'GLITIPNI-96', 'GLITIPNI-43', 'GLITIPNI-99', 'Glimas1118', 'GLITIPNI-79'], 
-            'test': ['GLITIPNI-109', 'Glimas1080', 'Glimas1146', 'GLITIPNI-49', 'Glimas1156', 'GLITIPNI-88', 'Glimas1052', 'Glimas1058', 'Glimas1054', 'Glimas1050', 'Glimas1062', 'GLITIPNI-53', 'GLITIPNI-105', 'GLITIPNI-23', 'GLITIPNI-56', 'Glimas1022', 'GLITIPNI-63', 'GLITIPNI-93', 'Glimas1128', 'Glimas1132', 'Glimas1150', 'GLITIPNI-33', 'GLITIPNI-68', 'GLITIPNI-62', 'GLITIPNI-8', 'Glimas1134', 'Glimas1116', 'GLITIPNI-89', 'GLITIPNI-82', 'GLITIPNI-21', 'GLITIPNI-55', 'GLITIPNI-25', 'Glimas1068', 'GLITIPNI-5', 'Glimas1124', 'GLITIPNI-90', 'Glimas1072', 'GLITIPNI-107', 'GLITIPNI-36', 'Glimas1172', 'GLITIPNI-18', 'Glimas1028', 'GLITIPNI-27', 'Glimas1174', 'GLITIPNI-73', 'GLITIPNI-38', 'Glimas1170', 'Glimas1074', 'Glimas1160', 'Glimas1154', 'Glimas1048', 'Glimas1084']}
+subjects = {'CV1': [ ],           
+            'CV2': [ ],
+            'CV3': [ ],
+            'CV4': [ ],
+            'CV5': [ ],
+            'test': [ ]}
 
 def get_data(data_root, train_val_or_test):
   data_list = []
@@ -120,43 +109,26 @@ class PolyLRScheduler(_LRScheduler):
         new_lr = self.initial_lr * (1 - current_step / self.max_steps) ** self.exponent
         for param_group in self.optimizer.param_groups:
             param_group['lr'] = new_lr
-"""
-    def run(self, image: np.ndarray, seg: np.ndarray = None) -> np.ndarray:
-        assert self.intensityproperties is not None, "CTNormalization requires intensity properties"
-        mean_intensity = self.intensityproperties['mean']
-        std_intensity = self.intensityproperties['std']
-        lower_bound = self.intensityproperties['percentile_00_5']
-        upper_bound = self.intensityproperties['percentile_99_5']
 
-        image = image.astype(self.target_dtype, copy=False)
-        np.clip(image, lower_bound, upper_bound, out=image)
-        image -= mean_intensity
-        image /= max(std_intensity, 1e-8)
-        return image
-"""
 
 ###################################################
 ####################DATALOADER#####################
 ###################################################
 
 # GET TRANSFORMS
-train_transforms = transforms.Compose([
-    # DETERMINISTIC 
+train_transforms = transforms.Compose([ 
     transforms.LoadImaged(keys=["image", "label"], ensure_channel_first=True),
     ConvertToBinaryLabelsd(keys="label"),
-    #transforms.ClipIntensityPercentilesd(keys=['image'], lower=0.5, upper=99.5),
     transforms.NormalizeIntensityd(keys=["image"]),
     transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
     transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")), 
     
-    # STOCHASTIC 
     transforms.RandCropByPosNegLabeld(keys=["image", "label"], spatial_size=size, label_key="label", num_samples=2),
     transforms.RandZoomd(keys=["image", "label"], min_zoom=1, max_zoom=1.3, mode=("trilinear", "nearest")),
     transforms.RandFlipd(keys=["image", "label"], prob=0.5, spatial_axis=0), #only allow lateral flipping (symmetrical axis)
     transforms.RandRotated(keys=["image", "label"], range_x=0.15, range_y=0.15, range_z=0.15, prob=0.5)
     ])
 val_transforms = transforms.Compose([
-    # DETERMINISTIC 
     transforms.LoadImaged(keys=["image", "label"], ensure_channel_first=True),
     ConvertToBinaryLabelsd(keys="label"),
     #transforms.ClipIntensityPercentilesd(keys=['image'], lower=0.5, upper=99.5),
@@ -167,7 +139,6 @@ val_transforms = transforms.Compose([
     
 folds = {'F1':{'train':['CV2', 'CV3', 'CV4', 'CV5'], 'val':['CV1']}, 'F2':{'train':['CV1', 'CV3', 'CV4', 'CV5'], 'val':['CV2']}, 'F3':{'train':['CV1', 'CV2', 'CV4', 'CV5'], 'val':['CV3']}, 'F4':{'train':['CV1', 'CV2', 'CV3', 'CV5'], 'val':['CV4']}, 'F5':{'train':['CV1', 'CV2', 'CV3', 'CV4'], 'val':['CV5']}}
 
-#for fold in ['F5']:
 for fold in ['F1', 'F2', 'F3', 'F4', 'F5']:
     print(f"Starting fold {fold}...")
     train_files = []
@@ -339,8 +310,6 @@ for fold in ['F1', 'F2', 'F3', 'F4', 'F5']:
                 dice_metric.reset()
                 dice_metric_batch.reset()
     
-                wandb.log({f"dice_{fold}": metric})
-    
                 if metric > best_metric:
                     best_metric = metric
                     best_metric_epoch = epoch + 1
@@ -349,7 +318,7 @@ for fold in ['F1', 'F2', 'F3', 'F4', 'F5']:
                     best_metrics_epochs_and_time[2].append(time.time() - total_start)
                     torch.save(
                         model.state_dict(),
-                        os.path.join(model_root, f"SegFet_best_{fold}.pth"),
+                        os.path.join(model_root, f"1C-UNet_best_{fold}.pth"),
                     )
                     print("saved new best metric model")
                 print(
@@ -360,11 +329,10 @@ for fold in ['F1', 'F2', 'F3', 'F4', 'F5']:
                 
                 torch.save(
                     model.state_dict(),
-                    os.path.join(model_root, f"SegFet_latest_{fold}.pth"),
+                    os.path.join(model_root, f"1C-UNet_latest_{fold}.pth"),
                 )
                 
         print(f"time consuming of epoch {epoch + 1} is: {(time.time() - epoch_start):.4f}")
     total_time = time.time() - total_start
     
-    wandb.log({f"best_metric_{fold}": best_metric, f"best_epoch_{fold}": best_metric_epoch, f"total_time_{fold}": total_time})
 
