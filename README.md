@@ -15,7 +15,7 @@ The training scripts of different models mentioned in the paper are found under 
 
 ## Trained models
 
-Trained models can be downloaded [here](https://).  
+Trained models can be downloaded [here](https://drive.google.com/drive/folders/1D029CzFOn72ywTO4rZFwyVuYsAi9vhjI?usp=drive_link).  
 
 ## Citations
 
