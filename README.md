@@ -36,4 +36,4 @@ The trained models used in the study can be downloaded [here](https://drive.goog
 
 If you use this repository, please cite:
 
-*De Sutter, S., Dirks, I., Raes, L. et al. Interobserver ground-truth variability limits performance of automated glioblastoma segmentation on [18F]FET PET. EJNMMI Phys 12, 54 (2025). https://doi.org/10.1186/s40658-025-00767-y*
+> *De Sutter, S., Dirks, I., Raes, L. et al. Interobserver ground-truth variability limits performance of automated glioblastoma segmentation on [18F]FET PET. EJNMMI Phys 12, 54 (2025). https://doi.org/10.1186/s40658-025-00767-y*
